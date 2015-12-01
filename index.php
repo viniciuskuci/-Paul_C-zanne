@@ -16,20 +16,21 @@ include 'template/header.php';
             body{
                 background: black;
                 font-family: courier;
+                overflow-x: hidden;
             }
             
             .menu{
           list-style:none; 
-          
-          border:2px solid #660000; 
+          border:2.5px solid #660000; 
           float:left; 
-          width: 99.8%;
+          width: 100%;
           background: #660000;
+          position: absolute;
             }
             .menu li{
           position:relative; 
           float:left; 
-          width: 338px;
+          width: 24.8%;
           margin-left:2.5px ; 
           cursor:pointer;
           background: #666666;
@@ -46,6 +47,7 @@ include 'template/header.php';
 
 
 .menu li a{
+    position: relative;
           color:black;
           text-decoration:none;
           padding:8px 10px;
@@ -57,12 +59,17 @@ include 'template/header.php';
                 
             }
             .logo{
-                width: 150px;
-                height: 150px;
+                margin: 0px auto;
                 transition: all;
                 -moz-animation: logo 0.5s ;
                 animation-fill-mode: both;
                    	
+            }
+            .im{
+                float:none;
+                margin-left: 40px;
+              width: 200px;
+                height: 200px;  
             }
                @-moz-keyframes logo {
     	0% {
@@ -79,14 +86,7 @@ include 'template/header.php';
 
     	}
     }
-        .logo{
-                width: 300px;
-                height: 300px;
-                transition: all;
-                -webkit-animation: logo 0.5s ;
-                animation-fill-mode: both;
-                 	
-            }
+        
                @-webkit-keyframes logo {
     	0% {
                 margin-left: 400px;
@@ -101,6 +101,9 @@ include 'template/header.php';
     	}
     }   
     .sub{
+        float: none;
+        
+        margin: 0px auto;
         transition: all;
                 -moz-animation: sub 0.5s ;
                 animation-fill-mode: both;
@@ -109,13 +112,13 @@ include 'template/header.php';
     }
     @-moz-keyframes sub {
     	0% {
-                margin-left: 500px;
+                margin-left: 400px;
                 opacity:0;
     		
     	}
     	
     	100% {
-            margin-left:  600px;
+            margin-left:  500px;
     	   opacity:1;
          
     	}
@@ -138,11 +141,32 @@ include 'template/header.php';
     	   opacity:1;
          
     	}
-    }   
+    }  
+    .titulo_noticia{
+        
+        background: gray;
+        color:white;
+        width: 75%;
+        margin: 0 auto;
+        
+    }
+    th{ background: gray;height: 30px; 
+    font-size:22px; color:black;}
+    .conteudo_noticia{
+        width: 75%;
+        margin: 0 auto;
+    }
+    td{
+        padding: 15px 15px;
+        background: lightgray;height: 30px;
+        font-size:18px; color:#333333;
+        
+    }
         </style>
     </head>
-    <body>
-        <img class="logo" src="tordo.png"/>
+    <body><div class="logo">
+        <img class="im" src="tordo.png"/>
+        </div>
         <div style="font-family: courier; color:white; font-size:30px;" class="sub">O Tordo</div>
         <br/>
     <center>
@@ -155,11 +179,39 @@ include 'template/header.php';
             <li><a href="sobre.php"class="li">Sobre</a></li>
             
         </ul>
-        <table class="conteudo">
-            <th></th>
+        
+        
+        
+    </center>
+    <br/><br/><br/><br/>
+    
+    
+    
+    <center>
+        <?php
+        $SQL = "SELECT * FROM noticia;";
+    $preparo = conexao()->prepare($SQL);
+    $preparo->execute();
+    while ($linha  = $preparo->fetch(PDO::FETCH_ASSOC)){
+        ?>
+        <br/>
+    <table class="titulo_noticia">
+        <th ><?=$linha['titulo']?></font></th>
+            <table class="conteudo_noticia">
+                <td>
+                    <pre><?=$linha['corpo']; ?></pre>
+                    <br/>
+                    <div style="text-align: center;">
+                    <img src="/imageLoader.php?id=<?= $linha['id']; ?>" style="width:400px;" />
+                    </div>
+                </td>
+            </table>
         </table>
+        
     </center>
         <?php
+    }
         ?>
+            
     </body>
 </html>
